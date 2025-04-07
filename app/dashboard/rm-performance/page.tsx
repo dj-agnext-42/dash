@@ -7,9 +7,29 @@ import ProductQualityMetrics from '@/components/rm-performance/ProductQualityMet
 import StorageImpactAnalysis from '@/components/rm-performance/StorageImpactAnalysis';
 
 export default function RMPerformanceDashboard() {
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('monthly');
+  const [selectedPeriod, setSelectedPeriod] = useState<'daily' | 'weekly' | 'monthly'>('monthly');
   const [selectedFarm, setSelectedFarm] = useState<string>('');
   const [selectedBatch, setSelectedBatch] = useState<string>('');
+
+  const handlePeriodChange = (period: 'daily' | 'weekly' | 'monthly'): void => {
+    setSelectedPeriod(period);
+  };
+
+  const handleFarmChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setSelectedFarm(e.target.value);
+  };
+
+  const handleBatchChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setSelectedBatch(e.target.value);
+  };
+
+  const handleExportReport = (): void => {
+    alert('Downloading performance report...');
+  };
+
+  const handleCorrelationAnalysis = (): void => {
+    alert('Opening correlation analysis...');
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -18,14 +38,14 @@ export default function RMPerformanceDashboard() {
           <h1 className="text-3xl font-bold text-gray-900">RM and Product Performance Dashboard</h1>
           <div className="flex gap-2">
             <button
-              onClick={() => alert('Downloading performance report...')}
+              onClick={handleExportReport}
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               aria-label="Download performance report"
             >
               Export Report
             </button>
             <button
-              onClick={() => alert('Opening correlation analysis...')}
+              onClick={handleCorrelationAnalysis}
               className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
               aria-label="Run correlation analysis"
             >
@@ -39,7 +59,7 @@ export default function RMPerformanceDashboard() {
           <select
             className="p-2 border rounded-md"
             value={selectedPeriod}
-            onChange={(e) => setSelectedPeriod(e.target.value)}
+            onChange={(e) => handlePeriodChange(e.target.value as 'daily' | 'weekly' | 'monthly')}
             aria-label="Select time period"
           >
             <option value="daily">Daily</option>
@@ -52,7 +72,7 @@ export default function RMPerformanceDashboard() {
           <select
             className="p-2 border rounded-md"
             value={selectedFarm}
-            onChange={(e) => setSelectedFarm(e.target.value)}
+            onChange={handleFarmChange}
             aria-label="Select farm"
           >
             <option value="">All Farms</option>
@@ -64,7 +84,7 @@ export default function RMPerformanceDashboard() {
           <select
             className="p-2 border rounded-md"
             value={selectedBatch}
-            onChange={(e) => setSelectedBatch(e.target.value)}
+            onChange={handleBatchChange}
             aria-label="Select batch"
           >
             <option value="">All Batches</option>

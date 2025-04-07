@@ -7,9 +7,32 @@ import QualityTestResults from '@/components/supplier-kyc/QualityTestResults';
 import InspectionMetrics from '@/components/supplier-kyc/InspectionMetrics';
 
 export default function SupplierKYCDashboard() {
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('monthly');
+  const [selectedPeriod, setSelectedPeriod] = useState<'daily' | 'weekly' | 'monthly'>('monthly');
   const [selectedSupplier, setSelectedSupplier] = useState<string>('');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+
+  const handlePeriodChange = (period: 'daily' | 'weekly' | 'monthly'): void => {
+    setSelectedPeriod(period);
+  };
+
+  const handleSupplierChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setSelectedSupplier(e.target.value);
+    // Show alert for non-compliant suppliers (replace with actual logic)
+    setShowAlert(e.target.value === 'supplier2');
+  };
+
+  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setSelectedRegion(e.target.value);
+  };
+
+  const handleExportReport = (): void => {
+    alert('Downloading compliance report...');
+  };
+
+  const handleViewAuditHistory = (): void => {
+    alert('Opening audit history...');
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -18,14 +41,14 @@ export default function SupplierKYCDashboard() {
           <h1 className="text-3xl font-bold text-gray-900">Supplier KYC Dashboard</h1>
           <div className="flex gap-2">
             <button
-              onClick={() => alert('Downloading compliance report...')}
+              onClick={handleExportReport}
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               aria-label="Download compliance report"
             >
               Export Report
             </button>
             <button
-              onClick={() => alert('Opening supplier audit history...')}
+              onClick={handleViewAuditHistory}
               className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
               aria-label="View audit history"
             >
@@ -39,7 +62,7 @@ export default function SupplierKYCDashboard() {
           <select
             className="p-2 border rounded-md"
             value={selectedPeriod}
-            onChange={(e) => setSelectedPeriod(e.target.value)}
+            onChange={(e) => handlePeriodChange(e.target.value as 'daily' | 'weekly' | 'monthly')}
             aria-label="Select time period"
           >
             <option value="daily">Daily</option>
@@ -52,7 +75,7 @@ export default function SupplierKYCDashboard() {
           <select
             className="p-2 border rounded-md"
             value={selectedSupplier}
-            onChange={(e) => setSelectedSupplier(e.target.value)}
+            onChange={handleSupplierChange}
             aria-label="Select supplier"
           >
             <option value="">All Suppliers</option>
@@ -64,7 +87,7 @@ export default function SupplierKYCDashboard() {
           <select
             className="p-2 border rounded-md"
             value={selectedRegion}
-            onChange={(e) => setSelectedRegion(e.target.value)}
+            onChange={handleRegionChange}
             aria-label="Select region"
           >
             <option value="">All Regions</option>

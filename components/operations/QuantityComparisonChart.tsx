@@ -20,6 +20,11 @@ const QuantityComparisonChart = ({ phase, shipmentId }: QuantityComparisonChartP
   // In a real application, you would fetch data based on phase and shipmentId
   // For now, we'll use sample data
 
+  const formatName = (name: unknown): string => {
+    const nameStr = String(name);
+    return nameStr.charAt(0).toUpperCase() + nameStr.slice(1);
+  };
+
   return (
     <div className="w-full h-[300px]">
       <ResponsiveContainer width="100%" height="100%">
@@ -44,7 +49,7 @@ const QuantityComparisonChart = ({ phase, shipmentId }: QuantityComparisonChartP
             labelFormatter={(value) => new Date(value).toLocaleDateString()}
             formatter={(value, name) => [
               `${value} kg`,
-              name.charAt(0).toUpperCase() + name.slice(1)
+              formatName(name)
             ]}
           />
           <Legend />
